@@ -1,6 +1,6 @@
-var React = require('react-native');
-var api = require('../Utils/Api');
-var Dashboard = require('./Dashboard');
+var React         =require('react-native');
+var GithubService =require('../Services/Github');
+var Dashboard     =require('./Dashboard');
 
 var {
   View,
@@ -73,7 +73,7 @@ class Main extends React.Component{
     this.setState({
       isLoading: true
     })
-    api.getBio(this.state.username)
+    GithubService.getBio(this.state.username)
       .then((res) => {
         if (res.message === 'Not Found') {
           this.setState({
