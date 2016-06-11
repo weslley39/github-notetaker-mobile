@@ -1,4 +1,6 @@
 var React = require('react-native');
+var api = require('../Utils/Api');
+var Dashboard = require('./Dashboard');
 
 var {
   View,
@@ -71,9 +73,31 @@ class Main extends React.Component{
     this.setState({
       isLoading: true
     })
-    console.log('SUBMIT', this.state.username);
+    api.getBio(this.state.username)
+      .then((res) => {
+        if (res.message === 'Not Found') {
+          this.setState({
+            isLoading: false,
+            error: 'User not found'
+          })
+        } else {
+          this.props.navigator.push({
+            title: res.name || 'Select an Option',
+            component: Dashboard,
+            passProps: {userInfo: res}
+          });
+          this.setState({
+            isLoading: false,
+            error: false,
+            username: ''
+          })
+        }
+      });
   }
   render(){
+    let showError = (
+      this.state.error ? <Text>{this.state.error}</Text> : <View></View>
+    )
     return (
       <View style={styles.mainContainer}>
         <Text style={styles.title}>Search for a Github user</Text>
@@ -87,6 +111,12 @@ class Main extends React.Component{
           underlayColor='white'>
             <Text style={styles.buttonText}> SEARCH </Text>
         </TouchableHighlight>
+        <ActivityIndicatorIOS
+          animating={this.state.isLoading}
+          color='#111'
+          size='large'>
+        </ActivityIndicatorIOS>
+        {showError}
       </View>
     )
   }
