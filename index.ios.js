@@ -21,7 +21,7 @@ let styles = StyleSheet.create({
   },
 })
 
-class Project extends Component{
+class NoteTaker extends Component{
   render() {
     return (
       <NavigatorIOS
@@ -34,4 +34,4 @@ class Project extends Component{
   }
 }
 
-AppRegistry.registerComponent('Project', () => Project);
+AppRegistry.registerComponent('NoteTaker', () => NoteTaker);
