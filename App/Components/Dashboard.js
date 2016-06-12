@@ -1,9 +1,11 @@
-var React         = require('react-native');
-var Profile       = require('./Profile');
-var Repositories  = require('./Repositories');
-let GithubService = require('../Services/Github');
+let React           = require('react-native');
+let Profile         = require('./Profile');
+let Repositories    = require('./Repositories');
+let Notes           = require('./Notes');
+let GithubService   = require('../Services/Github');
+let FireBaseService = require('../Services/Firebase');
 
-var {
+let {
   Text,
   View,
   StyleSheet,
@@ -65,7 +67,18 @@ class Dashboard extends React.Component{
       })
   }
   goToNotes(){
-    console.log('Goging to Profile');
+    FireBaseService.getNotes(this.props.userInfo.login)
+      .then((res) => {
+        res = res || {};
+        this.props.navigator.push({
+          component: Notes,
+          title: 'Notes',
+          passProps: {
+            notes   : res,
+            userInfo: this.props.userInfo
+          }
+        })
+      })
   }
   render(){
     return(

@@ -3,6 +3,7 @@ var GithubService =require('../Services/Github');
 var Dashboard     =require('./Dashboard');
 
 var {
+  Alert,
   View,
   Text,
   StyleSheet,
@@ -77,9 +78,18 @@ class Main extends React.Component{
       .then((res) => {
         if (res.message === 'Not Found') {
           this.setState({
-            isLoading: false,
-            error: 'User not found'
-          })
+            isLoading: false
+          });
+          Alert.alert(
+            'User not found',
+            `The user ${this.state.username} was not found in the github`,
+            [
+              {
+                text   : 'Ok',
+                onPress: () => console.log('Ok Pressed')
+              }
+            ]
+          )
         } else {
           this.props.navigator.push({
             title: res.name || 'Select an Option',

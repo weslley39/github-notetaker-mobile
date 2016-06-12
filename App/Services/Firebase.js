@@ -4,7 +4,7 @@ let api = {
     username = username.toLowerCase().trim();
     let url  = `${BASE_URL}${username}.json`
     return fetch(url).then((res) => res.json());
-  }
+  },
   addNote(username, note){
     username = username.toLowerCase().trim();
     let url  = `${BASE_URL}${username}.json`
